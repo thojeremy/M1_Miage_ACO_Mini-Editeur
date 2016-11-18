@@ -1,4 +1,4 @@
-package fr.istic.m1.aco.miniediteur.main.v3;
+package fr.istic.m1.aco.miniediteur.v3.memento;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,5 +19,13 @@ public class CareTaker {
 			throw new IndexOutOfBoundsException();
 		}
 		return mementoList.remove(mementoList.size() - 1);
+	}
+	
+	public int size(){
+		return mementoList.size();
+	}
+	
+	public void clear(){
+		mementoList.clear();
 	}
 }

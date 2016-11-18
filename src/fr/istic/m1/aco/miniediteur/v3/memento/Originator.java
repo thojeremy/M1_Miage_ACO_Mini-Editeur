@@ -1,7 +1,11 @@
-package fr.istic.m1.aco.miniediteur.main.v3;
+package fr.istic.m1.aco.miniediteur.v3.memento;
 
 public class Originator {
 	private String etat;
+	
+	public Originator(){
+		etat = "";
+	}
 	
 	public void setEtat(String etat){
 		this.etat = etat;

@@ -1,4 +1,4 @@
-package fr.istic.m1.aco.miniediteur.main.v3;
+package fr.istic.m1.aco.miniediteur.v3.memento;
 
 public class Memento {
 	private String etat;
