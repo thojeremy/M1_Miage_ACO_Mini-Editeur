@@ -6,7 +6,7 @@ class MEImpl implements MoteurEdition {
 	private Selection selection ;
 
 	public void couper(){
-		// S'il y a eu une sÃ©lection
+		// S'il y a eu une sélection
 		if(selection.selectionne()){
 			// On copie
 			pressePapier.setPressePapier(buffer.getInterval(selection.getDebut(), selection.getFin()));
@@ -17,7 +17,7 @@ class MEImpl implements MoteurEdition {
 	}
 	
 	public void copier() {
-		// S'il y a eu une sÃ©lection
+		// S'il y a eu une sélection
 		if(selection.selectionne()){
 			// On copie
 			pressePapier.setPressePapier(buffer.getInterval(selection.getDebut(), selection.getFin()));
@@ -25,7 +25,7 @@ class MEImpl implements MoteurEdition {
 	}
 	
 	public void coller() {
-		// Si du texte a Ã©tÃ© sÃ©lectionnÃ©
+		// Si du texte a été sélectionné
 		if(selection.selectionne()){
 			// On jarte
 			buffer.removeInterval(selection.getDebut(), selection.getFin());

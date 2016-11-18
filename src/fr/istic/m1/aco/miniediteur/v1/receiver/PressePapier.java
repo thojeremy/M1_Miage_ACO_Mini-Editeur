@@ -12,6 +12,9 @@ class PressePapier {
   	}
 
 	public void setPressePapier(String texte) {
+		if(texte == null){
+			throw new IllegalArgumentException();
+		}
 		pressePapier = texte;
 	}
 }

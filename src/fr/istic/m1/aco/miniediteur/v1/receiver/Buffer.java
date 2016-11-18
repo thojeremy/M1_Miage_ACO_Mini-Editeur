@@ -22,10 +22,10 @@ class Buffer {
   	public void removeInterval(int debut, int fin){
   		String s = "";
   		
-  		// On met le dÃ©but (de 0 Ã  debut)
+  		// On met le début (de 0 à debut)
   		s += debut 	> 0 					? zoneTexte.substring(0, debut-1) 					: "";
   		
-  		// On met la fin (de fin Ã  longueurMax)
+  		// On met la fin (de fin à longueurMax)
   		s += fin 	< zoneTexte.length() 	? zoneTexte.substring(fin+1, zoneTexte.length()) 	: "";
   		
   		zoneTexte = new StringBuffer(s);
@@ -34,10 +34,10 @@ class Buffer {
   	public void addText(String texte, int debut){
   		String s = "";
   		
-  		// On met le dÃ©but
+  		// On met le début
   		s += debut > 0 	? zoneTexte.substring(0, debut-1) : "";
   		
-  		// On insÃ©re le texte
+  		// On insère le texte
   		s += texte;
   		
   		// On met la fin
