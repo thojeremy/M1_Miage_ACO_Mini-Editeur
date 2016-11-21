@@ -2,7 +2,7 @@
 
 Le but de ce projet est de faire un mini-éditeur en Java. Il est demandé de faire trois versions:
 - Commandes de base : copier, coller, couper, sélectionner...
-- Enregistrer et Ouvrir un fichier
+- Enregistrer et Rejouer des macros
 - Undo et Redo
 
 Les versions doivent être imbriquées les unes dans les autres sans pour autant casser le code.

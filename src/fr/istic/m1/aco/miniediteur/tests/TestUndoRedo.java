@@ -1,23 +1,23 @@
 package fr.istic.m1.aco.miniediteur.tests;
 
-import fr.istic.m1.aco.miniediteur.v3.memento.*;
-
 import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestMemento {
-	private Originator originator;
-	private CareTaker undo;
-	private CareTaker redo;
+import fr.istic.m1.aco.miniediteur.v3.UndoRedo.*;
+
+public class TestUndoRedo {
+	private UndoRedoOriginator originator;
+	private UndoRedoCareTaker undo;
+	private UndoRedoCareTaker redo;
 
 	@Before
 	public void setUp() throws Exception {
-		originator = new Originator();
-		undo = new CareTaker();
-		redo = new CareTaker();
+		originator = new UndoRedoOriginator();
+		undo = new UndoRedoCareTaker();
+		redo = new UndoRedoCareTaker();
 	}
 	
 	@Test
@@ -33,17 +33,17 @@ public class TestMemento {
 		System.out.println("=== Cas Marsupilami Derniere Lettre ===");
 		
 		// Ecriture de Marsupilami dans le undo
-		undo.add(new Memento("M"));
-		undo.add(new Memento("Ma"));
-		undo.add(new Memento("Mar"));
-		undo.add(new Memento("Mars"));
-		undo.add(new Memento("Marsu"));
-		undo.add(new Memento("Marsup"));
-		undo.add(new Memento("Marsupi"));
-		undo.add(new Memento("Marsupil"));
-		undo.add(new Memento("Marsupila"));
-		undo.add(new Memento("Marsupilam"));
-		undo.add(new Memento("Marsupilami"));
+		undo.add(new UndoRedoMemento("M"));
+		undo.add(new UndoRedoMemento("Ma"));
+		undo.add(new UndoRedoMemento("Mar"));
+		undo.add(new UndoRedoMemento("Mars"));
+		undo.add(new UndoRedoMemento("Marsu"));
+		undo.add(new UndoRedoMemento("Marsup"));
+		undo.add(new UndoRedoMemento("Marsupi"));
+		undo.add(new UndoRedoMemento("Marsupil"));
+		undo.add(new UndoRedoMemento("Marsupila"));
+		undo.add(new UndoRedoMemento("Marsupilam"));
+		undo.add(new UndoRedoMemento("Marsupilami"));
 		
 		assertEquals(undo.size(), "Marsupilami".length());
 		
@@ -75,12 +75,12 @@ public class TestMemento {
 		System.out.println("=== Cas Phrase Premier Mot ===");
 		
 		// Ecriture de la phrase dans le undo
-		undo.add(new Memento("Le"));
-		undo.add(new Memento("Le soleil"));
-		undo.add(new Memento("Le soleil brille"));
-		undo.add(new Memento("Le soleil brille dans"));
-		undo.add(new Memento("Le soleil brille dans le"));
-		undo.add(new Memento("Le soleil brille dans le ciel"));
+		undo.add(new UndoRedoMemento("Le"));
+		undo.add(new UndoRedoMemento("Le soleil"));
+		undo.add(new UndoRedoMemento("Le soleil brille"));
+		undo.add(new UndoRedoMemento("Le soleil brille dans"));
+		undo.add(new UndoRedoMemento("Le soleil brille dans le"));
+		undo.add(new UndoRedoMemento("Le soleil brille dans le ciel"));
 		
 		assertEquals(undo.size(), 6);
 		

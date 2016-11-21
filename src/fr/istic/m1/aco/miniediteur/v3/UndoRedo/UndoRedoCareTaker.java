@@ -1,20 +1,20 @@
-package fr.istic.m1.aco.miniediteur.v3.memento;
+package fr.istic.m1.aco.miniediteur.v3.UndoRedo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CareTaker {
-	private List<Memento> mementoList;
+public class UndoRedoCareTaker {
+	private List<UndoRedoMemento> mementoList;
 	
-	public CareTaker(){
-		mementoList = new ArrayList<Memento>();
+	public UndoRedoCareTaker(){
+		mementoList = new ArrayList<UndoRedoMemento>();
 	}
 	
-	public void add(Memento memento){
+	public void add(UndoRedoMemento memento){
 		mementoList.add(memento);
 	}
 	
-	public Memento get(){
+	public UndoRedoMemento get(){
 		if(mementoList.size() == 0){
 			throw new IndexOutOfBoundsException();
 		}
