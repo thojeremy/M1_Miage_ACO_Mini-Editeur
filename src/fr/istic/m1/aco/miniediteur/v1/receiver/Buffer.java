@@ -1,6 +1,6 @@
 package fr.istic.m1.aco.miniediteur.v1.receiver;
 
-class Buffer {
+public class Buffer {
 	private StringBuffer zoneTexte;
   	
   	public Buffer(){
@@ -23,10 +23,10 @@ class Buffer {
   		String s = "";
   		
   		// On met le début (de 0 à debut)
-  		s += debut 	> 0 					? zoneTexte.substring(0, debut-1) 					: "";
+  		s += debut 	> 0 					? zoneTexte.substring(0, debut) 					: "";
   		
   		// On met la fin (de fin à longueurMax)
-  		s += fin 	< zoneTexte.length() 	? zoneTexte.substring(fin+1, zoneTexte.length()) 	: "";
+  		s += fin 	< zoneTexte.length() 	? zoneTexte.substring(fin, zoneTexte.length()) 	: "";
   		
   		zoneTexte = new StringBuffer(s);
   	}
@@ -35,14 +35,18 @@ class Buffer {
   		String s = "";
   		
   		// On met le début
-  		s += debut > 0 	? zoneTexte.substring(0, debut-1) : "";
+  		s += debut > 0 	? zoneTexte.substring(0, debut+1) : "";
   		
   		// On insère le texte
   		s += texte;
   		
   		// On met la fin
-  		s += debut < zoneTexte.length() ? zoneTexte.substring(debut, zoneTexte.length()) 	: "";
+  		s += debut+1 < zoneTexte.length() ? zoneTexte.substring(debut+1, zoneTexte.length()) 	: "";
   		
   		zoneTexte = new StringBuffer(s);
+  	}
+  	
+  	public String toString(){
+  		return zoneTexte + "";
   	}
 }

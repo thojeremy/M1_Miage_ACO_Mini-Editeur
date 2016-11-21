@@ -1,6 +1,6 @@
 package fr.istic.m1.aco.miniediteur.v1.receiver;
 
-class Selection {
+public class Selection {
 	private int debut;
 	private int fin;
 

@@ -1,4 +1,4 @@
-package fr.istic.m1.aco.miniediteur.v3.tests;
+package fr.istic.m1.aco.miniediteur.tests;
 
 import fr.istic.m1.aco.miniediteur.v3.memento.*;
 
@@ -68,11 +68,6 @@ public class TestMemento {
 		undo.add(originator.toMemento());
 		
 		assertEquals(undo.size(), "Marsupilami".length());
-		
-		// On remet tout à zéro
-		originator.setEtat("");
-		undo.clear();
-		redo.clear();
 	}
 	
 	@Test

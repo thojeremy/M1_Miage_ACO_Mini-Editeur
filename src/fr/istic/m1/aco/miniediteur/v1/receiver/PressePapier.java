@@ -1,6 +1,6 @@
 package fr.istic.m1.aco.miniediteur.v1.receiver;
 
-class PressePapier {
+public class PressePapier {
 	private String pressePapier;
 	
 	public PressePapier(){
@@ -16,5 +16,9 @@ class PressePapier {
 			throw new IllegalArgumentException();
 		}
 		pressePapier = texte;
+	}
+	
+	public String toString(){
+		return pressePapier;
 	}
 }
