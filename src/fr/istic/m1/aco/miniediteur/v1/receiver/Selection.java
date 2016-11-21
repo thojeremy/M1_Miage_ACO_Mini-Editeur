@@ -28,6 +28,14 @@ public class Selection {
 		return fin - debut;
 	}
 	
+	public void gestionDebutFin(){
+		if(debut > fin){
+			int tmp = debut;
+			debut = fin;
+			fin = tmp;
+		}
+	}
+	
 	public boolean selectionne(){
 		return (debut != 0 && fin != 0) && (debut != fin);
 	}

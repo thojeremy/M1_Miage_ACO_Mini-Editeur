@@ -9,12 +9,15 @@ public class Selectionner implements Order{
 	
 	public Selectionner(MEImpl moteur){
 		this.moteur = moteur;
-		debut = 0;
-		fin = 0;
+		this.debut = 0;
+		this.fin = 0;
 	}
 	
-	public void setSelection(int debut, int fin){
+	public void setSelectionDebut(int debut){
 		this.debut = debut;
+	}
+	
+	public void setSelectionFin(int fin){
 		this.fin = fin;
 	}
 	

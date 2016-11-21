@@ -16,38 +16,39 @@ public class MEImpl implements MoteurEdition {
 	public void couper(){
 		// S'il y a eu une sélection
 		if(selection.selectionne()){
+			selection.gestionDebutFin();
+			
 			int deb = selection.getDebut() < 0 ? 0 : selection.getDebut();
 			int fin = selection.getFin() >= buffer.getZoneTexte().length() ? buffer.getZoneTexte().length() : selection.getFin();
 			
-			if(fin > deb){
-				// On copie
-				pressePapier.setPressePapier(buffer.getInterval(deb, fin));
-				
-				// On enlève l'intervalle voulu
-				buffer.removeInterval(deb, fin);
-				
-				// On change la position du curseur
-				curseur = deb;
-			}
+			// On copie
+			pressePapier.setPressePapier(buffer.getInterval(deb, fin));
+			
+			// On enlève l'intervalle voulu
+			buffer.removeInterval(deb, fin);
+			
+			// On change la position du curseur
+			curseur = deb;
 		}
 	}
 	
 	public void copier() {
 		// S'il y a eu une sélection
 		if(selection.selectionne()){
+			// On teste le début et la fin
+			selection.gestionDebutFin();
+			
 			// On copie
 			int deb = selection.getDebut() < 0 ? 0 : selection.getDebut();
 			int fin = selection.getFin() >= buffer.getZoneTexte().length() ? buffer.getZoneTexte().length() : selection.getFin();
 			
-			if(deb < fin){
-				pressePapier.setPressePapier(buffer.getInterval(deb, fin));
-			}
+			pressePapier.setPressePapier(buffer.getInterval(deb, fin));
 		}
 	}
 	
 	public void coller() {
 		// Si du texte a été sélectionné
-		if(selection.selectionne()){
+		if(pressePapier.toString().length() > 0){
 			// On prend le texte du buffer
 			String texte = buffer.getZoneTexte();
 			
@@ -55,7 +56,6 @@ public class MEImpl implements MoteurEdition {
 			// On ajoute le texte du presse papier
 			// On ajoute la partie du texùte du curseur à la fin
 			texte = texte.substring(0, curseur) + pressePapier.getPressePapier() + texte.substring(curseur, texte.length());
-			
 			
 			// On met le nouveau texte dans le buffer
 			buffer.setZoneTexte(texte);
@@ -66,7 +66,7 @@ public class MEImpl implements MoteurEdition {
 	
 	public void insererTexte(String texte) {
 		buffer.addText(texte, curseur-1);
-		curseur = buffer.getZoneTexte().length();
+		curseur += (texte.length());
 	}
 	
 	public void selectionnerDebut(int debut) {
@@ -90,6 +90,13 @@ public class MEImpl implements MoteurEdition {
 		curseur = (curseur - nombre >= 0) ? (curseur-nombre) : 0 ;
 	}
 	
+	public void supprimerTexteDel(int nombre){
+		if((curseur + nombre) <= buffer.getZoneTexte().length()){
+			curseur += nombre;
+			supprimerTexte(nombre);
+		}
+	}
+	
 	public String getBuffer(){
 		return buffer+"";
 	}
@@ -99,7 +106,7 @@ public class MEImpl implements MoteurEdition {
 	}
 	
 	public void setCurseur(int position){
-		curseur = position < 0 ? (position > buffer.getZoneTexte().length() ? buffer.getZoneTexte().length() : position) : position;
+		curseur = position < 0 ? 0 : (position > buffer.getZoneTexte().length() ? buffer.getZoneTexte().length() : position);
 	}
 	
 	public int getCurseur(){

@@ -23,14 +23,12 @@ public class TestReceiver {
 		moteurEdition.insererTexte("Le lapin");
 		System.out.println("> " + moteurEdition.getBuffer() + " (" + moteurEdition.getCurseur() + ")");
 		
-		assertEquals("Le lapin".length(), moteurEdition.getCurseur());
 		assertEquals("Le lapin", moteurEdition.getBuffer());
 		
 		// Test d'ajout de "qui s'appelle"
 		moteurEdition.insererTexte(" qui s'appelle");
 		System.out.println("> " + moteurEdition.getBuffer() + " (" + moteurEdition.getCurseur() + ")");
 		
-		assertEquals("Le lapin qui s'appelle".length(), moteurEdition.getCurseur());
 		assertEquals("Le lapin qui s'appelle", moteurEdition.getBuffer());
 		
 		// Test d'ajout de "Oscar Hotte"
@@ -54,14 +52,12 @@ public class TestReceiver {
 		moteurEdition.insererTexte("Une phrase ajoutée au buffer");
 		System.out.println("> " + moteurEdition.getBuffer() + " (" + moteurEdition.getCurseur() + ")");
 
-		assertEquals("Une phrase ajoutée au buffer".length(), moteurEdition.getCurseur());
 		assertEquals("Une phrase ajoutée au buffer", moteurEdition.getBuffer());
 		
 		// Test de suppression de " buffer"
 		moteurEdition.supprimerTexte(7);
 		System.out.println("> " + moteurEdition.getBuffer() + " (" + moteurEdition.getCurseur() + ")");
 
-		assertEquals("Une phrase ajoutée au".length(), moteurEdition.getCurseur());
 		assertEquals("Une phrase ajoutée au", moteurEdition.getBuffer());
 		
 		// Test de suppression pour ne laisser plus que "Une"
@@ -94,7 +90,6 @@ public class TestReceiver {
 		moteurEdition.insererTexte("Un chimpanzé mangeant une banane et un abricot");
 		System.out.println("> " + moteurEdition.getBuffer() + " (" + moteurEdition.getCurseur() + ")");
 
-		assertEquals("Un chimpanzé mangeant une banane et un abricot".length(), moteurEdition.getCurseur());
 		assertEquals("Un chimpanzé mangeant une banane et un abricot", moteurEdition.getBuffer());
 		
 		// Test de déplacement du curseur après "Un chimpanzé mangeant "
@@ -112,7 +107,6 @@ public class TestReceiver {
 		moteurEdition.insererTexte("Achète-moi ");
 		System.out.println("> " + moteurEdition.getBuffer() + " (" + moteurEdition.getCurseur() + ")");
 
-		assertEquals("Achète-moi une banane et un abricot".length(), moteurEdition.getCurseur());
 		assertEquals("Achète-moi une banane et un abricot", moteurEdition.getBuffer());
 	}
 	
@@ -124,7 +118,6 @@ public class TestReceiver {
 		moteurEdition.insererTexte("Ici le texte");
 		System.out.println("> " + moteurEdition.getBuffer() + " (" + moteurEdition.getCurseur() + ")");
 
-		assertEquals("Ici le texte".length(), moteurEdition.getCurseur());
 		assertEquals("Ici le texte", moteurEdition.getBuffer());
 		
 		// Copie de "le"
@@ -186,7 +179,6 @@ public class TestReceiver {
 		moteurEdition.insererTexte("Ici le texte");
 		System.out.println("> " + moteurEdition.getBuffer() + " (" + moteurEdition.getCurseur() + ")");
 
-		assertEquals("Ici le texte".length(), moteurEdition.getCurseur());
 		assertEquals("Ici le texte", moteurEdition.getBuffer());
 		
 		// On coupe "le"

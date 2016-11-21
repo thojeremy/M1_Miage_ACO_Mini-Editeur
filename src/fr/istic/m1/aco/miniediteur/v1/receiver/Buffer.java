@@ -35,7 +35,7 @@ public class Buffer {
   		String s = "";
   		
   		// On met le début
-  		s += debut > 0 	? zoneTexte.substring(0, debut+1) : "";
+  		s += debut >= 0 	? zoneTexte.substring(0, debut + 1) : "";
   		
   		// On insère le texte
   		s += texte;

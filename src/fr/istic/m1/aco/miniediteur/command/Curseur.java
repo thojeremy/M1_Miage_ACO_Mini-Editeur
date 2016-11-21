@@ -8,10 +8,10 @@ public class Curseur implements Order{
 	
 	public Curseur(MEImpl moteur){
 		this.moteur = moteur;
-		position = 0;
+		this.position = 0;
 	}
 	
-	public void sePosition(int position){
+	public void setPosition(int position){
 		this.position = position;
 	}
 	

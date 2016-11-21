@@ -8,7 +8,7 @@ public class Inserer implements Order{
 	
 	public Inserer(MEImpl moteur){
 		this.moteur = moteur;
-		texte = "";
+		this.texte = "";
 	}
 	
 	public void setTexte(String texte){
