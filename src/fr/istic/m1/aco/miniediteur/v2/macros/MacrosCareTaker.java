@@ -14,11 +14,11 @@ public class MacrosCareTaker {
 		mementoList.add(memento);
 	}
 	
-	public MacrosMemento get(){
-		if(mementoList.size() == 0){
+	public MacrosMemento get(int index){
+		if(mementoList.size() == 0 || index >= mementoList.size() || index < 0){
 			throw new IndexOutOfBoundsException();
 		}
-		return mementoList.remove(0);
+		return mementoList.get(index);
 	}
 	
 	public int size(){

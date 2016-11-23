@@ -1,15 +1,48 @@
 package fr.istic.m1.aco.miniediteur.v1.receiver;
 
+import fr.istic.m1.aco.miniediteur.command.Broker;
+import fr.istic.m1.aco.miniediteur.command.Order;
+import fr.istic.m1.aco.miniediteur.v2.macros.MacrosCareTaker;
+import fr.istic.m1.aco.miniediteur.v2.macros.MacrosOriginator;
+import fr.istic.m1.aco.miniediteur.v3.UndoRedo.UndoRedoCareTaker;
+import fr.istic.m1.aco.miniediteur.v3.UndoRedo.UndoRedoMemento;
+import fr.istic.m1.aco.miniediteur.v3.UndoRedo.UndoRedoOriginator;
+
 public class MEImpl implements MoteurEdition {
+	// V1
 	private Buffer buffer ;
 	private PressePapier pressePapier ;
 	private Selection selection ;
+	
+	// V2
+	MacrosOriginator m_originator;
+	MacrosCareTaker macro;
+	
+	// V3
+	private UndoRedoOriginator ur_originator;
+	private UndoRedoCareTaker undo;
+	private UndoRedoCareTaker redo;
+	
 	private int curseur;
 	
 	public MEImpl(){
+		// V1
 		buffer = new Buffer();
 		pressePapier = new PressePapier();
 		selection = new Selection();
+		
+		// V2
+		m_originator = new MacrosOriginator();
+		macro = new MacrosCareTaker();
+		
+		// V3
+		ur_originator = new UndoRedoOriginator();
+		undo = new UndoRedoCareTaker();
+		redo = new UndoRedoCareTaker();
+		
+		// On initialise la liste des undo
+		ajouterUndo();
+		
 		curseur = 0;
 	}
 
@@ -65,8 +98,12 @@ public class MEImpl implements MoteurEdition {
 	}
 	
 	public void insererTexte(String texte) {
+		// Et on met à jour le buffer
 		buffer.addText(texte, curseur-1);
 		curseur += (texte.length());
+
+		// On met à jour la liste des undos
+		ajouterUndo();
 	}
 	
 	public void selectionnerDebut(int debut) {
@@ -111,5 +148,51 @@ public class MEImpl implements MoteurEdition {
 	
 	public int getCurseur(){
 		return curseur;
+	}
+	
+	// V2
+	public void ajouterMacro(Order order){
+		m_originator.setEtat(order);
+		macro.add(m_originator.toMemento());
+	}
+	
+	public void jouerMacro(){
+		Broker broker = new Broker();
+		
+		for(int i = 0; i < macro.size(); i++){
+			broker.takeOrder(macro.get(i).getEtat());
+		}
+		
+		broker.placeOrders();
+	}
+	
+	public void supprimerMacro(){
+		macro.clear();
+	}
+
+	// V3
+	private void ajouterUndo(){
+		ur_originator.setEtat(buffer.getZoneTexte());
+		undo.add(ur_originator.toMemento());
+	}
+	
+	public void undo(){
+		if(!undo.isEmpty()){
+			ur_originator.fromMemento(undo.get());
+			ajouterRedo(ur_originator.toMemento());
+			buffer.setZoneTexte(ur_originator.getEtat());
+		}
+	}
+	
+	private void ajouterRedo(UndoRedoMemento memento){
+		redo.add(memento);
+	}
+	
+	public void redo(){
+		if(!redo.isEmpty()){
+			ur_originator.fromMemento(redo.get());
+			buffer.setZoneTexte(ur_originator.getEtat());
+			ajouterUndo();
+		}
 	}
 }

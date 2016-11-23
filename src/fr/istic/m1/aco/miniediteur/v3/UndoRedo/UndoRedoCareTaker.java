@@ -25,6 +25,10 @@ public class UndoRedoCareTaker {
 		return mementoList.size();
 	}
 	
+	public boolean isEmpty(){
+		return mementoList.size() == 0;
+	}
+	
 	public void clear(){
 		mementoList.clear();
 	}

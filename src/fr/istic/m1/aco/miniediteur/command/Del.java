@@ -8,6 +8,7 @@ public class Del implements Order{
 	
 	public Del(MEImpl moteur){
 		this.moteur = moteur;
+		nbCaracteres = 0;
 	}
 	
 	public void setNbCaracteres(int nbCaracteres){

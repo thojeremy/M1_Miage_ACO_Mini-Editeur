@@ -12,6 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import fr.istic.m1.aco.miniediteur.v1.receiver.MEImpl;
 import fr.istic.m1.aco.miniediteur.v2.macros.MacrosCareTaker;
@@ -38,6 +40,8 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 	private static Selectionner selectionner;
 	private static Supprimer 	supprimer;
 	private static Del			del;
+	private static Undo			undo;
+	private static Redo			redo;
 	
 	// La mise en place des mementos
 	private UndoRedoOriginator urOriginator;
@@ -95,6 +99,8 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 		selectionner 	= new Selectionner(Main.moteur);
 		supprimer 		= new Supprimer(Main.moteur);
 		del				= new Del(Main.moteur);
+		undo			= new Undo(Main.moteur);
+		redo			= new Redo(Main.moteur);
 	}
 	
 	private void creationElementsGraphiques(){
@@ -188,7 +194,6 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 				String texte = arg0.getKeyChar() + "";
 				
 				inserer.setTexte(texte);
-				
 				ExecuteCommand.addOrder(inserer);
 			break;
 		}
@@ -243,21 +248,27 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 			// TODO
 			System.out.println("Replay");
 		} else if(e.getSource() == undoButton){
-			// TODO
-			System.out.println("Undo");
+			// Un clic sur le bouton [UNDO]
+			ExecuteCommand.addOrder(undo);
+			ExecuteCommand.executeOrder();
 		} else if(e.getSource() == redoButton){
-			// TODO
-			System.out.println("Redo");
+			// Un clic sur le bouton [REDO]
+			ExecuteCommand.addOrder(redo);
+			ExecuteCommand.executeOrder();
 		} else if(e.getSource() == copierButton){
+			// Un clic sur le bouton [COPIER]
 			ExecuteCommand.addOrder(copier);
 			ExecuteCommand.executeOrder();
 		} else if(e.getSource() == couperButton){
+			// Un clic sur le bouton [COUPER]
 			ExecuteCommand.addOrder(couper);
 			ExecuteCommand.executeOrder();
 		} else if(e.getSource() == collerButton){
+			// Un clic sur le bouton [COLLER]
 			ExecuteCommand.addOrder(coller);
 			ExecuteCommand.executeOrder();
 		} else if(e.getSource() == zoneTexte){
+			// Un clic dans la zone de texte
 			curseur.setPosition(zoneTexte.getCaretPosition());
 			
 			ExecuteCommand.addOrder(curseur);
