@@ -15,6 +15,7 @@ public class MEImpl implements MoteurEdition {
 	private Selection selection ;
 	
 	// V2
+	boolean enregistrementMacro;
 	MacrosOriginator m_originator;
 	MacrosCareTaker macro;
 	
@@ -23,7 +24,7 @@ public class MEImpl implements MoteurEdition {
 	private UndoRedoCareTaker undo;
 	private UndoRedoCareTaker redo;
 	
-	private int curseur;
+	public static int curseur;
 	
 	public MEImpl(){
 		// V1
@@ -32,6 +33,7 @@ public class MEImpl implements MoteurEdition {
 		selection = new Selection();
 		
 		// V2
+		enregistrementMacro = false;
 		m_originator = new MacrosOriginator();
 		macro = new MacrosCareTaker();
 		
@@ -59,6 +61,10 @@ public class MEImpl implements MoteurEdition {
 			
 			// On enlève l'intervalle voulu
 			buffer.removeInterval(deb, fin);
+			
+			// On stocke dans le undo
+			ur_originator.setEtat(buffer.getZoneTexte());
+			undo.add(ur_originator.toMemento());
 			
 			// On change la position du curseur
 			curseur = deb;
@@ -92,6 +98,10 @@ public class MEImpl implements MoteurEdition {
 			
 			// On met le nouveau texte dans le buffer
 			buffer.setZoneTexte(texte);
+			
+			// On stocke dans le undo
+			ur_originator.setEtat(buffer.getZoneTexte());
+			undo.add(ur_originator.toMemento());
 			
 			curseur += pressePapier.getPressePapier().length();
 		}
@@ -152,8 +162,18 @@ public class MEImpl implements MoteurEdition {
 	
 	// V2
 	public void ajouterMacro(Order order){
-		m_originator.setEtat(order);
-		macro.add(m_originator.toMemento());
+		if(enregistrementMacro){
+			m_originator.setEtat(order);
+			macro.add(m_originator.toMemento());
+		}
+	}
+	
+	public void changerEtatEnregistrementMacro(){
+		enregistrementMacro = !enregistrementMacro;
+		
+		if(enregistrementMacro){
+			macro.clear();
+		}
 	}
 	
 	public void jouerMacro(){
@@ -164,10 +184,6 @@ public class MEImpl implements MoteurEdition {
 		}
 		
 		broker.placeOrders();
-	}
-	
-	public void supprimerMacro(){
-		macro.clear();
 	}
 
 	// V3
@@ -181,6 +197,7 @@ public class MEImpl implements MoteurEdition {
 			ur_originator.fromMemento(undo.get());
 			ajouterRedo(ur_originator.toMemento());
 			buffer.setZoneTexte(ur_originator.getEtat());
+			curseur = buffer.getZoneTexte().length();
 		}
 	}
 	
@@ -192,6 +209,7 @@ public class MEImpl implements MoteurEdition {
 		if(!redo.isEmpty()){
 			ur_originator.fromMemento(redo.get());
 			buffer.setZoneTexte(ur_originator.getEtat());
+			curseur = buffer.getZoneTexte().length();
 			ajouterUndo();
 		}
 	}

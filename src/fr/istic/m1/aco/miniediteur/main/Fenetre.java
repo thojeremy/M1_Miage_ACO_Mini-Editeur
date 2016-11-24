@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -24,14 +25,15 @@ import fr.istic.m1.aco.miniediteur.command.*;
 
 public class Fenetre extends JFrame implements MouseListener, KeyListener{
 	public static final String TEXTE_REPLAY = "[MACRO] Rejouer";
-	public static final String TEXTE_SAVE	= "[MACRO] Sauvegarder";
+	public static final String TEXTE_SAVE_1	= "[MACRO] Sauvegarder";
+	public static final String TEXTE_SAVE_2	= "[MACRO] STOP";
 	public static final String TEXTE_UNDO	= "Undo";
 	public static final String TEXTE_REDO	= "Redo";
 	public static final String TEXTE_COPIER	= "Copier";
 	public static final String TEXTE_COUPER	= "Couper";
 	public static final String TEXTE_COLLER	= "Coller";
 	
-	// Le moteur
+	// Le moteur pour la V1
 	private static Coller 		coller;
 	private static Copier 		copier;
 	private static Couper 		couper;
@@ -40,6 +42,13 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 	private static Selectionner selectionner;
 	private static Supprimer 	supprimer;
 	private static Del			del;
+
+	// Le moteur pour la V2
+	private static EtatEnregistrementMacro 	etatEnregistrementMacro;
+	private static EnregistrerMacro 		enregistrerMacro;
+	private static JouerMacro				jouerMacro;
+
+	// Le moteur pour la V3
 	private static Undo			undo;
 	private static Redo			redo;
 	
@@ -64,7 +73,7 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 	private JButton copierButton;
 	private JButton couperButton;
 	private JButton collerButton;
-	private JTextArea zoneTexte;
+	public static JTextArea zoneTexte;
 	private JScrollPane scrollPane;
 	
 	public Fenetre(){
@@ -91,6 +100,7 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 	}
 
 	public static void initialisationMoteur(){
+		// V1
 		coller 			= new Coller(Main.moteur);
 		copier 			= new Copier(Main.moteur);
 		couper 			= new Couper(Main.moteur);
@@ -99,15 +109,22 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 		selectionner 	= new Selectionner(Main.moteur);
 		supprimer 		= new Supprimer(Main.moteur);
 		del				= new Del(Main.moteur);
-		undo			= new Undo(Main.moteur);
-		redo			= new Redo(Main.moteur);
+		
+		// V2
+		etatEnregistrementMacro	= new EtatEnregistrementMacro(Main.moteur);
+		enregistrerMacro 		= new EnregistrerMacro(Main.moteur);
+		jouerMacro 				= new JouerMacro(Main.moteur);
+		
+		// V3
+		undo	= new Undo(Main.moteur);
+		redo	= new Redo(Main.moteur);
 	}
 	
 	private void creationElementsGraphiques(){
 		panelGlobal = new JPanel();
 		panelMenu 	= new JPanel();
 		replayButton= new JButton(TEXTE_REPLAY);
-		saveButton	= new JButton(TEXTE_SAVE);
+		saveButton	= new JButton(TEXTE_SAVE_1);
 		undoButton 	= new JButton(TEXTE_UNDO);
 		redoButton 	= new JButton(TEXTE_REDO);
 		copierButton= new JButton(TEXTE_COPIER);
@@ -138,16 +155,28 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 	}
 	
 	public void ajoutListeners(){
+		// V1
 		copierButton.addMouseListener(this);
 		couperButton.addMouseListener(this);
 		collerButton.addMouseListener(this);
+		
+		// V2
 		replayButton.addMouseListener(this);
 		saveButton	.addMouseListener(this);
+		
+		// V3
 		undoButton	.addMouseListener(this);
 		redoButton	.addMouseListener(this);
-		zoneTexte	.addMouseListener(this);
 		
+		// Zone d'édition
+		zoneTexte	.addMouseListener(this);
 		zoneTexte.addKeyListener(this);
+	}
+	
+	private void ajouterOrderEnregistrementMacro(Order order){
+		// Enregistrement dans la macro SI besoin (traité après dans le code)
+		enregistrerMacro.setOrder(order);
+		ExecuteCommand.addOrder(enregistrerMacro);
 	}
 
 	@Override
@@ -157,6 +186,8 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 				supprimer.setNbCaracteres(1);
 				
 				ExecuteCommand.addOrder(supprimer);
+				
+				ajouterOrderEnregistrementMacro(supprimer);
 			break;
 			
 			case KeyEvent.VK_DELETE:
@@ -164,41 +195,67 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 				del.setNbCaracteres(1);
 				
 				ExecuteCommand.addOrder(del);
+				
+				ajouterOrderEnregistrementMacro(del);
 			break;
 			
 			case KeyEvent.VK_LEFT:
 				curseur.setPosition(zoneTexte.getCaretPosition());
 				
 				ExecuteCommand.addOrder(curseur);
+				
+				ajouterOrderEnregistrementMacro(curseur);
 			break;
 			
 			case KeyEvent.VK_RIGHT:
 				curseur.setPosition(zoneTexte.getCaretPosition());
 				
 				ExecuteCommand.addOrder(curseur);
+				
+				ajouterOrderEnregistrementMacro(curseur);
 			break;
 			
 			case KeyEvent.VK_UP:
 				curseur.setPosition(zoneTexte.getCaretPosition());
 				
 				ExecuteCommand.addOrder(curseur);
+				
+				ajouterOrderEnregistrementMacro(curseur);
 			break;
 			
 			case KeyEvent.VK_DOWN:
 				curseur.setPosition(zoneTexte.getCaretPosition());
 				
 				ExecuteCommand.addOrder(curseur);
+				
+				ajouterOrderEnregistrementMacro(curseur);
 			break;
 			
 			default:
-				String texte = arg0.getKeyChar() + "";
+				// Filtre pour seulement les lettres et chiffres
+				int code = arg0.getKeyCode();
 				
-				inserer.setTexte(texte);
-				ExecuteCommand.addOrder(inserer);
+				if(		(code == 13 || code == 44 || code == 32 || code == 0 || code == 151 || code == 10) ||
+						(code >= 513 && code <= 522) ||
+						(code >= 48 && code <= 90) || (code >= 96 && code <= 111) || 
+						(code >= 186 && code <= 222)){
+					String texte = arg0.getKeyChar() + "";
+					
+					inserer.setTexte(texte);
+					
+					ExecuteCommand.addOrder(inserer);
+					
+					Inserer i = new Inserer(Main.moteur);
+					i.setTexte(texte);
+					ajouterOrderEnregistrementMacro(i);
+				} else {
+					System.out.println(code);
+				}
 			break;
 		}
 		
 		ExecuteCommand.executeOrder();
+		zoneTexte.revalidate();
 	}
 
 	@Override
@@ -208,24 +265,32 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 				curseur.setPosition(zoneTexte.getCaretPosition());
 				
 				ExecuteCommand.addOrder(curseur);
+				
+				ajouterOrderEnregistrementMacro(curseur);
 			break;
 			
 			case KeyEvent.VK_RIGHT:
 				curseur.setPosition(zoneTexte.getCaretPosition());
 				
 				ExecuteCommand.addOrder(curseur);
+				
+				ajouterOrderEnregistrementMacro(curseur);
 			break;
 			
 			case KeyEvent.VK_UP:
 				curseur.setPosition(zoneTexte.getCaretPosition());
 				
 				ExecuteCommand.addOrder(curseur);
+				
+				ajouterOrderEnregistrementMacro(curseur);
 			break;
 			
 			case KeyEvent.VK_DOWN:
 				curseur.setPosition(zoneTexte.getCaretPosition());
 				
 				ExecuteCommand.addOrder(curseur);
+				
+				ajouterOrderEnregistrementMacro(curseur);
 			break;
 			
 			default:
@@ -239,37 +304,64 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 	public void keyTyped(KeyEvent arg0) {
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource() == saveButton){
-			// TODO
-			System.out.println("Save");
+			// Un clic sur le bouton [[MACRO] Sauvegarder]
+			ExecuteCommand.addOrder(etatEnregistrementMacro);
+			ExecuteCommand.executeOrder();
+			
+			// Changement du libelle
+			saveButton.setText(saveButton.getText() == TEXTE_SAVE_1 ? TEXTE_SAVE_2 : TEXTE_SAVE_1);
 		} else if(e.getSource() == replayButton){
-			// TODO
-			System.out.println("Replay");
+			// Un clic sur le bouton [[MACRO] Rejouer]
+			if(saveButton.getText() == TEXTE_SAVE_1){// Si l'utilisateur a arrêté l'enregistrement
+				ExecuteCommand.addOrder(jouerMacro);
+				ExecuteCommand.executeOrder();
+			} else {// Sinon
+				new JOptionPane().showMessageDialog(null, "Veuillez arrêter l'enregistrement de la macro en cours", "/!\\", JOptionPane.WARNING_MESSAGE);
+			}
 		} else if(e.getSource() == undoButton){
 			// Un clic sur le bouton [UNDO]
 			ExecuteCommand.addOrder(undo);
+			
+			ajouterOrderEnregistrementMacro(undo);
+			
 			ExecuteCommand.executeOrder();
 		} else if(e.getSource() == redoButton){
 			// Un clic sur le bouton [REDO]
 			ExecuteCommand.addOrder(redo);
+			
+			ajouterOrderEnregistrementMacro(redo);
+			
 			ExecuteCommand.executeOrder();
 		} else if(e.getSource() == copierButton){
 			// Un clic sur le bouton [COPIER]
 			ExecuteCommand.addOrder(copier);
+			
+			ajouterOrderEnregistrementMacro(copier);
+			
 			ExecuteCommand.executeOrder();
 		} else if(e.getSource() == couperButton){
 			// Un clic sur le bouton [COUPER]
 			ExecuteCommand.addOrder(couper);
+			
+			ajouterOrderEnregistrementMacro(couper);
+			
 			ExecuteCommand.executeOrder();
 		} else if(e.getSource() == collerButton){
 			// Un clic sur le bouton [COLLER]
 			ExecuteCommand.addOrder(coller);
+			
+			ajouterOrderEnregistrementMacro(coller);
+			
 			ExecuteCommand.executeOrder();
 		} else if(e.getSource() == zoneTexte){
 			// Un clic dans la zone de texte
 			curseur.setPosition(zoneTexte.getCaretPosition());
+			
+			ajouterOrderEnregistrementMacro(curseur);
 			
 			ExecuteCommand.addOrder(curseur);
 			ExecuteCommand.executeOrder();
@@ -289,6 +381,8 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 		if(e.getSource() == zoneTexte){
 			selectionner.setSelectionDebut(zoneTexte.getCaretPosition());
 			
+			ajouterOrderEnregistrementMacro(selectionner);
+			
 			ExecuteCommand.addOrder(selectionner);
 			ExecuteCommand.executeOrder();
 		}
@@ -298,6 +392,8 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 	public void mouseReleased(MouseEvent e) {
 		if(e.getSource() == zoneTexte){
 			selectionner.setSelectionFin(zoneTexte.getCaretPosition());
+			
+			ajouterOrderEnregistrementMacro(selectionner);
 			
 			ExecuteCommand.addOrder(selectionner);
 			ExecuteCommand.executeOrder();

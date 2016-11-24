@@ -12,7 +12,7 @@ public class ExecuteCommand {
 	
 	public static void executeOrder(){
 		broker.placeOrders();
-
-		System.out.println(Main.moteur.getBuffer() + " (" + Main.moteur.getCurseur() + ")");
+		
+		//System.out.println(Main.moteur.getBuffer() + " (" + Main.moteur.getCurseur() + ")");
 	}
 }
