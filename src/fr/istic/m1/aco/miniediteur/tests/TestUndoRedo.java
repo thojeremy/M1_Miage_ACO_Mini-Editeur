@@ -13,6 +13,11 @@ public class TestUndoRedo {
 	private UndoRedoCareTaker undo;
 	private UndoRedoCareTaker redo;
 
+	/**
+	 * Permet de dire quoi faire avant chaque test
+	 * 
+	 * @throws Exception	S'il y a une exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		originator = new UndoRedoOriginator();
@@ -20,6 +25,9 @@ public class TestUndoRedo {
 		redo = new UndoRedoCareTaker();
 	}
 	
+	/**
+	 * Permet de tester l'initialisation
+	 */
 	@Test
 	public void init(){
 		assertEquals(originator.getEtat(), "");
@@ -28,6 +36,9 @@ public class TestUndoRedo {
 		assertEquals(redo.size(), 0);
 	}
 	
+	/**
+	 * Permet de supprimer la dernière lettre de Marsupilami
+	 */
 	@Test
 	public void casMarsupilamiDerniereLettre(){
 		System.out.println("=== Cas Marsupilami Derniere Lettre ===");
@@ -70,6 +81,9 @@ public class TestUndoRedo {
 		assertEquals(undo.size(), "Marsupilami".length());
 	}
 	
+	/**
+	 * Permet de laisser seulement le premier mot
+	 */
 	@Test
 	public void casPhrasePremierMot(){
 		System.out.println("=== Cas Phrase Premier Mot ===");

@@ -10,11 +10,19 @@ import org.junit.Test;
 public class TestReceiver {
 	private MEImpl moteurEdition;
 
+	/**
+	 * Permet de dire quoi faire avant chaque test
+	 * 
+	 * @throws Exception	S'il y a une exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		moteurEdition = new MEImpl();
 	}
 
+	/**
+	 * Permet de tester l'insertion
+	 */
 	@Test
 	public void casInsertion1() {
 		System.out.println("=== Cas Insertion 1 ===");
@@ -39,6 +47,9 @@ public class TestReceiver {
 		assertEquals("Le lapin qui s'appelle Oscar Hotte", moteurEdition.getBuffer());
 	}
 	
+	/**
+	 * Permet de tester la suppression
+	 */
 	@Test
 	public void casSuppression1(){
 		System.out.println("=== Cas Supression 1 ===");
@@ -82,6 +93,9 @@ public class TestReceiver {
 		assertEquals("", moteurEdition.getBuffer());
 	}
 	
+	/**
+	 * Permet de tester la suppression plus avancée
+	 */
 	@Test
 	public void casSuppression2(){
 		System.out.println("=== Cas Supression 2 ===");
@@ -110,6 +124,9 @@ public class TestReceiver {
 		assertEquals("Achète-moi une banane et un abricot", moteurEdition.getBuffer());
 	}
 	
+	/**
+	 * Permet de tester le copier coller
+	 */
 	@Test
 	public void casCopierColler1(){
 		System.out.println("=== Cas Copier Coller 1 ===");
@@ -160,7 +177,7 @@ public class TestReceiver {
 		moteurEdition.copier();
 		System.out.println("> " + moteurEdition.getPressePapier() + " (" + moteurEdition.getCurseur() + ")");
 
-		assertEquals("Ici lele textetexte".length(), (moteurEdition.getPressePapier()).length());
+		//assertEquals("Ici lele textetexte".length(), (moteurEdition.getPressePapier()).length());
 		assertEquals("Ici lele textetexte", moteurEdition.getPressePapier());
 		
 		// On colle à la fin
@@ -171,6 +188,9 @@ public class TestReceiver {
 		assertEquals("Ici lele textetexteIci lele textetexte", moteurEdition.getBuffer());
 	}
 	
+	/**
+	 * Permet de tester le couper coller
+	 */
 	@Test
 	public void casCouperColler1(){
 		System.out.println("=== Cas Couper Coller 1 ===");

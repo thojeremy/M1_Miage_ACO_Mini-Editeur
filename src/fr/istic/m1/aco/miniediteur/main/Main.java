@@ -7,7 +7,9 @@ public class Main{
 	public static MEImpl moteur;
 	
 	/**
-	 * @param args
+	 * Le point d'entrée du programme
+	 * 
+	 * @param args	Les arguments du main
 	 */
 	public static void main(String[] args) {
 		// Initialisation du broker

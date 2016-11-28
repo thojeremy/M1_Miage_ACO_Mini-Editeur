@@ -8,6 +8,10 @@ import fr.istic.m1.aco.miniediteur.v3.UndoRedo.UndoRedoCareTaker;
 import fr.istic.m1.aco.miniediteur.v3.UndoRedo.UndoRedoMemento;
 import fr.istic.m1.aco.miniediteur.v3.UndoRedo.UndoRedoOriginator;
 
+/**
+ * @author jérémy
+ *
+ */
 public class MEImpl implements MoteurEdition {
 	// V1
 	private Buffer buffer ;
@@ -26,6 +30,9 @@ public class MEImpl implements MoteurEdition {
 	
 	public static int curseur;
 	
+	/**
+	 * Le constructeur du moteur d'édition
+	 */
 	public MEImpl(){
 		// V1
 		buffer = new Buffer();
@@ -48,6 +55,9 @@ public class MEImpl implements MoteurEdition {
 		curseur = 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#couper()
+	 */
 	public void couper(){
 		// S'il y a eu une sélection
 		if(selection.selectionne()){
@@ -71,6 +81,9 @@ public class MEImpl implements MoteurEdition {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#copier()
+	 */
 	public void copier() {
 		// S'il y a eu une sélection
 		if(selection.selectionne()){
@@ -85,6 +98,9 @@ public class MEImpl implements MoteurEdition {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#coller()
+	 */
 	public void coller() {
 		// Si du texte a été sélectionné
 		if(pressePapier.toString().length() > 0){
@@ -107,6 +123,9 @@ public class MEImpl implements MoteurEdition {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#insererTexte(java.lang.String)
+	 */
 	public void insererTexte(String texte) {
 		// Et on met à jour le buffer
 		buffer.addText(texte, curseur-1);
@@ -116,14 +135,23 @@ public class MEImpl implements MoteurEdition {
 		ajouterUndo();
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#selectionnerDebut(int)
+	 */
 	public void selectionnerDebut(int debut) {
-		selection.setDebut(debut);
+		selection.setDebut(debut < 0 ? 0 : debut);
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#selectionnerFin(int)
+	 */
 	public void selectionnerFin(int fin){
-		selection.setFin(fin);
+		selection.setFin(fin >= buffer.getZoneTexte().length() ? buffer.getZoneTexte().length() : fin);
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#supprimerTexte(int)
+	 */
 	public void supprimerTexte(int nombre){
 		String texte = buffer.getZoneTexte();
 		
@@ -137,6 +165,9 @@ public class MEImpl implements MoteurEdition {
 		curseur = (curseur - nombre >= 0) ? (curseur-nombre) : 0 ;
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#supprimerTexteDel(int)
+	 */
 	public void supprimerTexteDel(int nombre){
 		if((curseur + nombre) <= buffer.getZoneTexte().length()){
 			curseur += nombre;
@@ -144,23 +175,38 @@ public class MEImpl implements MoteurEdition {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#getBuffer()
+	 */
 	public String getBuffer(){
 		return buffer+"";
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#getPressePapier()
+	 */
 	public String getPressePapier(){
 		return pressePapier.getPressePapier();
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#setCurseur(int)
+	 */
 	public void setCurseur(int position){
 		curseur = position < 0 ? 0 : (position > buffer.getZoneTexte().length() ? buffer.getZoneTexte().length() : position);
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#getCurseur()
+	 */
 	public int getCurseur(){
 		return curseur;
 	}
 	
 	// V2
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#ajouterMacro(fr.istic.m1.aco.miniediteur.command.Order)
+	 */
 	public void ajouterMacro(Order order){
 		if(enregistrementMacro){
 			m_originator.setEtat(order);
@@ -168,6 +214,9 @@ public class MEImpl implements MoteurEdition {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#changerEtatEnregistrementMacro()
+	 */
 	public void changerEtatEnregistrementMacro(){
 		enregistrementMacro = !enregistrementMacro;
 		
@@ -176,6 +225,9 @@ public class MEImpl implements MoteurEdition {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#jouerMacro()
+	 */
 	public void jouerMacro(){
 		Broker broker = new Broker();
 		
@@ -187,11 +239,17 @@ public class MEImpl implements MoteurEdition {
 	}
 
 	// V3
+	/**
+	 * Permet d'ajouter l'état courant du buffer dans la liste undo
+	 */
 	private void ajouterUndo(){
 		ur_originator.setEtat(buffer.getZoneTexte());
 		undo.add(ur_originator.toMemento());
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#undo()
+	 */
 	public void undo(){
 		if(!undo.isEmpty()){
 			ur_originator.fromMemento(undo.get());
@@ -201,10 +259,18 @@ public class MEImpl implements MoteurEdition {
 		}
 	}
 	
+	/**
+	 * Permet d'ajouter un Memento au redo
+	 * 
+	 * @param memento	Le memento à ajouter
+	 */
 	private void ajouterRedo(UndoRedoMemento memento){
 		redo.add(memento);
 	}
 	
+	/* (non-Javadoc)
+	 * @see fr.istic.m1.aco.miniediteur.v1.receiver.MoteurEdition#redo()
+	 */
 	public void redo(){
 		if(!redo.isEmpty()){
 			ur_originator.fromMemento(redo.get());
