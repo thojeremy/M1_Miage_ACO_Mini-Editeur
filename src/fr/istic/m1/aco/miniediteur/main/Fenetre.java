@@ -47,6 +47,7 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 	// Le moteur pour la V3
 	private static Undo			undo;
 	private static Redo			redo;
+	private static EffacerRedo	effacerRedo;
 	
 	private static final int WIDTH 		= 800;
 	private static final int HEIGHT 	= 600;
@@ -112,8 +113,9 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 		jouerMacro 				= new JouerMacro(Main.moteur);
 		
 		// V3
-		undo	= new Undo(Main.moteur);
-		redo	= new Redo(Main.moteur);
+		undo		= new Undo(Main.moteur);
+		redo		= new Redo(Main.moteur);
+		effacerRedo = new EffacerRedo(Main.moteur);
 	}
 	
 	/**
@@ -262,6 +264,7 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 					inserer.setTexte(texte);
 					
 					ExecuteCommand.addOrder(inserer);
+					ExecuteCommand.addOrder(effacerRedo);
 					
 					ajouterOrderEnregistrementMacro(inserer.clone());
 				} else {
@@ -394,6 +397,7 @@ public class Fenetre extends JFrame implements MouseListener, KeyListener{
 		}
 		
 		zoneTexte.getCaret().setVisible(true);
+		zoneTexte.requestFocus();
 	}
 
 	/* (non-Javadoc)

@@ -116,4 +116,10 @@ public interface MoteurEdition {
 	 * - On le met dans le undo
 	 */
 	public void redo();
+	
+	/**
+	 * Permet d'effacer la liste des redo lorsqu'on insère un caractère dans le buffer
+	 * (Pour ne pas avoir de conflits avec les undo)
+	 */
+	public void effacerRedo();
 }

@@ -30,10 +30,10 @@ public class Broker {
 	 */
 	public void placeOrders(){
 		for (Order order : orderList) {
+			order.execute();
+			
 			Fenetre.zoneTexte.setText(Main.moteur.getBuffer());
 			Fenetre.zoneTexte.setCaretPosition(Main.moteur.curseur);
-			
-			order.execute();
 		}
 		orderList.clear();
 	}
