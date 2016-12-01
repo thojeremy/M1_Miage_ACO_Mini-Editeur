@@ -13,12 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import fr.istic.m1.aco.miniediteur.v2.macros.MacrosCareTaker;
-import fr.istic.m1.aco.miniediteur.v2.macros.MacrosOriginator;
-import fr.istic.m1.aco.miniediteur.v3.UndoRedo.UndoRedoCareTaker;
-import fr.istic.m1.aco.miniediteur.v3.UndoRedo.UndoRedoOriginator;
 import fr.istic.m1.aco.miniediteur.command.*;
 
+@SuppressWarnings("serial")
 public class Fenetre extends JFrame implements MouseListener, KeyListener{
 	public static final String TEXTE_REPLAY = "[MACRO] Rejouer";
 	public static final String TEXTE_SAVE_1	= "[MACRO] Sauvegarder";

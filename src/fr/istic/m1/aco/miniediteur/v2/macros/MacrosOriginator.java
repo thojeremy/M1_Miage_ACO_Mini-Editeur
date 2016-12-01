@@ -1,7 +1,6 @@
 package fr.istic.m1.aco.miniediteur.v2.macros;
 
 import fr.istic.m1.aco.miniediteur.command.Order;
-import fr.istic.m1.aco.miniediteur.v3.UndoRedo.UndoRedoMemento;
 
 public class MacrosOriginator {
 	private Order etat;

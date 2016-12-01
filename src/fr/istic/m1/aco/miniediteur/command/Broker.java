@@ -33,7 +33,7 @@ public class Broker {
 			order.execute();
 			
 			Fenetre.zoneTexte.setText(Main.moteur.getBuffer());
-			Fenetre.zoneTexte.setCaretPosition(Main.moteur.curseur);
+			Fenetre.zoneTexte.setCaretPosition(Main.moteur.getCurseur());
 		}
 		orderList.clear();
 	}
